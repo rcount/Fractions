@@ -13,10 +13,10 @@ struct Fraction{
     //MARK: - Private variables for the Fraction class -
 
     ///Fileprivate variable to hold the numerator of the fraction
-    fileprivate var numerator : Int = 0
+    fileprivate var numerator: Int = 0
 
     ///fileprivate variable to hld the denominator of the fraction
-    fileprivate var denominator : Int = 1
+    fileprivate var denominator: Int = 1
 
 
     //MARK: - Constructors for the Fraction class -
@@ -32,7 +32,7 @@ struct Fraction{
     /// -Parameters:
     ///         - numerator: number for the numerator of the Fraction
     ///         -denominator: number for the denominator of the Fraction
-    init(numerator num : Int, denominator den : Int = 1){
+    init(numerator num: Int, denominator den: Int = 1){
         self.setNumerator(numerator: num)
         self.setDenominator(denominator: den)
     }
@@ -48,7 +48,7 @@ struct Fraction{
     ///Overloaded Constructor for the Fraction Class to get the Reciprocal of another Fraction
     ///
     /// -Parameter reciprocalOf:    A fraction you want to get the Reciprocal Of
-    init(reciprocalOf fraction : Fraction){
+    init(reciprocalOf fraction: Fraction){
         self.setNumerator(numerator: fraction.denominator)
         self.setDenominator(denominator: fraction.numerator)
     }
@@ -65,14 +65,14 @@ struct Fraction{
     ///Function to set the Numerator for the Fraction
     ///
     /// -Parameter numerator:   An Int for the numerator
-    mutating public func setNumerator(numerator : Int) {
+    mutating public func setNumerator(numerator: Int) {
         self.numerator = numerator
     }
 
     ///Function to set the Denominator for the Fraction
     ///
     /// -Parameter denominator: An Int for the denominator
-    mutating public func setDenominator(denominator : Int) {
+    mutating public func setDenominator(denominator: Int) {
         self.denominator = denominator
     }
 
@@ -95,7 +95,7 @@ struct Fraction{
 
 //MARK: - Extension to make the Fraction class Comparable -
 
-extension Fraction : Comparable {
+extension Fraction: Comparable {
 
     ///Static Function to compare two fractions for equality
     ///
@@ -250,7 +250,7 @@ extension Fraction {
     ///         -denominator: an Int of the fraction to reduce
     ///
     /// -Returns: a Tuple of the numerator and denominator
-    fileprivate static func reduce(numerator : Int, denominator : Int) -> (num : Int, den: Int){
+    fileprivate static func reduce(numerator: Int, denominator: Int) -> (num : Int, den: Int){
         var divisor = Fraction.gcd(lhs: numerator, rhs: denominator)
         if divisor < 0 { divisor *= -1}
         
@@ -262,14 +262,14 @@ extension Fraction {
     }
 }
 
-//MARK: - Extension to make Fraction conform to CustomStringConvertible
+//MARK: - Extension to make Fraction conform to CustomStringConvertible -
 
 extension Fraction: CustomStringConvertible{
 
     ///Calculated Variable to get the description of the the fraction
     ///
     /// -Returns: a String representation of the Fraction
-    var description : String {
+    var description: String {
         get {
             if(denominator == 0){
                 return "Invalid fraction"
@@ -293,7 +293,7 @@ extension Fraction: Hashable{
     ///Calculated Variable to get the HashValue of the fraction
     ///
     /// -Returns: An Int representation of the Fraction
-    var hashValue : Int {
+    var hashValue: Int {
         var hash = 31
 
         hash = hash ^ self.numerator
@@ -309,14 +309,14 @@ extension Int {
     ///Calculated Variable to make an Int a Fraction
     ///
     /// -Returns: A fraction of the wholeNumber
-    var fraction : Fraction {
+    var fraction: Fraction {
         return Fraction(wholeNumber: self)
     }
 
     ///Calculated Variable to get the reciprocal of a fraction
     ///
     /// -Returns: A fraction of the reciprocal of the whole number
-    var reciprocalOf : Fraction {
+    var reciprocalOf: Fraction {
         return Fraction(numerator: 1, denominator: self)
     }
 }
