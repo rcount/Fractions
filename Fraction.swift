@@ -1,419 +1,348 @@
 //
 //  Fraction.swift
-//  Fractions
+//  Fraction
 //
-//  Created by Vickers, Stephen on 10/25/16.
-//  Copyright © 2016 Vickers, Stephen. All rights reserved.
+//  Created by Stephen Vickers on 11/16/21.
 //
 
 import Foundation
 
-struct Fraction{
+//
+// Created by Stephen Vickers on 10/13/16.
+// Copyright (c) 2016 ___FULLUSERNAME___. All rights reserved.
+//
 
-    //MARK: - Private variables for the Fraction class -
+import Foundation
 
-    ///Fileprivate variable to hold the numerator of the fraction
-    fileprivate var numerator: Int = 0
+struct Fraction {
 
-    ///fileprivate variable to hld the denominator of the fraction
-    fileprivate var denominator: Int = 1
-
-
-    //MARK: - Constructors for the Fraction class -
-
-    ///Default Constructor for the Fraction class
-    init(){
-        self.setNumerator(numerator: 1)
-        self.setDenominator(denominator: 1)
+    //MARK: - Public functions for the Fraction class -
+    
+    var numerator : Int = 0
+    var denominator : Int = 1
+    var formatted : String {
+        get {
+            if(self.denominator == 0){
+                return "Invalid Fraction: \(self.numerator)/0"
+            }
+            else if(self.numerator == 0){
+                return "0"
+            }
+            
+            else if(self.numerator == self.denominator){
+                return "1"
+            }
+            else if(self.denominator == 1){
+                return "\(self.numerator)"
+            }
+            else {
+                let separator = "\u{2044}"
+                return "\(self.numerator.superScript)\(separator)\(self.denominator.subScript)"
+            }
+        }
     }
 
-    ///Overloaded Constructor for the Fraction class
-    ///
-    /// -Parameters:
-    ///         - numerator: number for the numerator of the Fraction
-    ///         -denominator: number for the denominator of the Fraction
-    init(numerator num: Int, denominator den: Int = 1){
+    //MARK: - Lifecycle methods for the class -
+    
+
+    init(numerator num: Int = 1, denominator den : Int = 1) {
         self.setNumerator(numerator: num)
         self.setDenominator(denominator: den)
+
     }
 
-    ///Overloaded Constructor for the Fraction Class to copy one fraction into another
-    ///
-    /// -Parameter fraction:    A fraction to copy into another one
-    init(fraction : Fraction){
+    init (fraction : Fraction){
         self.setNumerator(numerator: fraction.numerator)
         self.setDenominator(denominator: fraction.denominator)
+
     }
 
-    ///Overloaded Constructor for the Fraction Class to get the Reciprocal of another Fraction
-    ///
-    /// -Parameter reciprocalOf:    A fraction you want to get the Reciprocal Of
-    init(reciprocalOf fraction: Fraction){
+    init(reciprocalOf fraction : Fraction){
         self.setNumerator(numerator: fraction.denominator)
         self.setDenominator(denominator: fraction.numerator)
     }
+    
+    //MARK: - Public functions for the class -
 
-    ///Overloaded Constructor for the Fraction Class to turn a hole number into a fraction
-    ///
-    /// -Parameter wholeNumber:     An Int to turn into a fraction
-    init(wholeNumber: Int){
-        self.init(numerator: wholeNumber)
+    mutating func setNumerator(numerator num: Int)  {
+        self.numerator = num
     }
 
-    //MARK: - Public functions for the Fraction Class -
-
-    ///Function to set the Numerator for the Fraction
-    ///
-    /// -Parameter numerator:   An Int for the numerator
-    mutating public func setNumerator(numerator: Int) {
-        self.numerator = numerator
-    }
-
-    ///Function to set the Denominator for the Fraction
-    ///
-    /// -Parameter denominator: An Int for the denominator
-    mutating public func setDenominator(denominator: Int) {
-        self.denominator = denominator
-    }
-
-    ///Function to get the Numerator of the fraction
-    ///
-    /// -Returns: An Int that is the numerator of the Fraction
-    public func getNumerator() -> Int{
-        return self.numerator
-    }
-
-    ///Function to get the Denominator of the fraction
-    ///
-    /// -Returns: An Int that is the Denominator of the Fraction
-    public func getDenominator() -> Int{
-        return self.denominator
-    }
-
- 
-}
-
-//MARK: - Extension to make the Fraction class Comparable -
-
-extension Fraction: Comparable {
-
-    ///Static Function to compare two fractions for equality
-    ///
-    /// -Parameters:
-    ///         -lhs: A fraction to compare on the left side of the ==
-    ///         -rhs: A fraction to compare on the right side of the ==
-    ///
-    /// -Returns: True if they are equal, false if they aren't
-    static func == (lhs: Fraction, rhs: Fraction) ->Bool {
-        return (lhs.getNumerator() * rhs.getDenominator()) == (lhs.getDenominator() * rhs.getNumerator())
-    }
-
-    ///Static Function to compare if the left hand Side is less than the right hand side
-    ///
-    /// -Parameters:
-    ///         -lhs: A fraction to compare on the left side of the ==
-    ///         -rhs: A fraction to compare on the right side of the ==
-    ///
-    /// -Returns: True if the left hand one is less, false if it's greater
-    static func < (lhs: Fraction, rhs: Fraction) -> Bool {
-        return (lhs.getNumerator() * rhs.getDenominator()) < (lhs.getDenominator() * rhs.getNumerator())
-    }
-
-}
-
-//MARK: - Extension to have a math functions for the Fraction -
-
-extension Fraction {
-
-    ///Static prefix function to get the negative of the current fraction
-    ///
-    /// -Parameter rhs: A fraction you want to get the negative of
-    ///
-    /// -Returns: A fraction with the numerator set to negative.
-    static prefix func - (rhs: Fraction) -> Fraction {
-        return Fraction(numerator: -rhs.getNumerator(), denominator: rhs.getDenominator())
-    }
-
-    ///Static function to add two fractions together
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the plus sign
-    ///         - rhs: A fraction of the right side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the two fractions
-    static func + (lhs: Fraction, rhs: Fraction) -> Fraction {
-        let a = lhs.numerator * rhs.denominator
-        let b = lhs.denominator * rhs.numerator
-        let den = lhs.denominator * rhs.denominator
+    mutating func setDenominator(denominator den: Int) {
         
-        let newNumbers = Fraction.reduce(numerator: a+b, denominator: den)
-        
-        return Fraction(numerator: newNumbers.num, denominator: newNumbers.den)
+        if (den < 0){
+            self.setNumerator(numerator: -self.numerator)
+        }
+        self.denominator = abs(den)
     }
-
-    ///Static function to Subtract two Fractions
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the minus sign
-    ///         - rhs: A fraction of the right side of the minus sign
-    ///
-    /// - Returns: A new fraction of the subtraction of the two fractions
-    static func - (lhs: Fraction, rhs: Fraction) -> Fraction {
-        return lhs + -rhs
-    }
-
-    ///Static function to multiply two fractions together
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the multiply sign
-    ///         - rhs: A fraction of the right side of the multiply sign
-    ///
-    /// - Returns: A new fraction of the multiplication of the two fractions
-    static func * (lhs: Fraction, rhs: Fraction) -> Fraction {
-        let newNumbers = Fraction.reduce(numerator: lhs.numerator * rhs.numerator,
-                denominator: lhs.denominator * rhs.denominator)
-        
-        return Fraction(numerator: newNumbers.num, denominator: newNumbers.den)
-    }
-
-    ///Static function to divide two Fraction
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the divide sign
-    ///         - rhs: A fraction of the right side of the divide sign
-    ///
-    /// - Returns: A new fraction of the division
-    static func / (lhs: Fraction, rhs: Fraction) -> Fraction {
-        return lhs * Fraction(reciprocalOf: rhs)
-    }
-
-    ///Static function to add two fractions together
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the plus sign
-    ///         - rhs: A fraction of the right side of the plus sign
-    ///
-    /// - Returns: the lhs with the rhs added to it
-    static func += (lhs: inout Fraction, rhs: Fraction) {
-        lhs = lhs + rhs
-    }
-
-    ///Static function to Subtract two Fractions
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the minus sign
-    ///         - rhs: A fraction of the right side of the minus sign
-    ///
-    /// - Returns: the lhs with the rhs subtracted from it
-    static func -= (lhs: inout Fraction, rhs: Fraction) {
-        lhs = lhs - rhs
-    }
-
-    ///Static function to multiply two fractions together
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the multiply sign
-    ///         - rhs: A fraction of the right side of the multiply sign
-    ///
-    /// - Returns: the lhs with the rhs multiplied to it.
-    static func *= (lhs: inout Fraction, rhs: Fraction) {
-        lhs = lhs * rhs
-    }
-
-    ///Static function to divide two Fraction
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the divide sign
-    ///         - rhs: A fraction of the right side of the divide sign
-    ///
-    /// - Returns: the lhs with the rhs divided from it
-    static func /= (lhs: inout Fraction, rhs: Fraction) {
-        lhs = lhs / rhs
-    }
-
-    ///FilePrivate function to get the Greatest Common Denominator for two number
-    ///
-    /// -Parameters:
-    ///         -lhs: An Int to check for the GCD
-    ///         -rhs: An Int to check for the GCD
-    ///
-    /// -Returns: If the rhs is 0 then it returns the lhs,
-    ///           else it recursively class it's self with rhs in lhs and rhs set to lhs % rhs
-    fileprivate static func gcd(lhs: Int, rhs: Int) -> Int {
-        return rhs == 0 ? lhs: gcd(lhs: rhs, rhs: lhs % rhs)
-    }
-
-    ///FilePrivate function to reduce a two numbers
-    ///
-    /// -Parameters:
-    ///         -numerator: an Int of the fraction to reduce
-    ///         -denominator: an Int of the fraction to reduce
-    ///
-    /// -Returns: a Tuple of the numerator and denominator
-    fileprivate static func reduce(numerator: Int, denominator: Int) -> (num : Int, den: Int){
+    
+    //MARK: - Private functions for the class -
+    
+    fileprivate func reduce() -> (numerator: Int, denominator : Int) {
         var divisor = Fraction.gcd(lhs: numerator, rhs: denominator)
-        if divisor < 0 { divisor *= -1}
+        if divisor < 0 {divisor *= -1}
         
         let num = numerator / divisor
         let den = denominator / divisor
         
         return (num, den)
-        
     }
 }
 
-//MARK: - Extension to make Fraction conform to CustomStringConvertible -
+//MARK: - Extension to make Fraction comform to Hashable -
+
+extension Fraction : Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        self.numerator.hash(into: &hasher)
+        self.denominator.hash(into: &hasher)
+    }
+
+    
+    
+}
+
+//MARK: - Extension to make Fraction comform to Comparable -
+
+/*
+ * These extensions are to make the Fraction struct conform to Comparable.
+ * To do that if the Denominators are the same then
+ */
+extension Fraction : Comparable {
+    static func == (lhs : Fraction , rhs : Fraction) -> Bool {
+       return (lhs.numerator * rhs.denominator) == (lhs.denominator * rhs.numerator)
+    }
+
+    //function to compare a two fractions for "Great-than"
+    static func < (lhs : Fraction, rhs: Fraction) -> Bool {
+        return (lhs.numerator * rhs.denominator) < (lhs.denominator * rhs.numerator)
+    }
+
+    static func > (lhs : Fraction, rhs : Fraction) -> Bool {
+        return (lhs.numerator * rhs.denominator) > (lhs.denominator * rhs.numerator)
+    }
+
+    static func <= (lhs : Fraction, rhs: Fraction) -> Bool {
+       return (lhs.numerator * rhs.denominator) <= (lhs.denominator * rhs.numerator)
+    }
+
+    static func >= (lhs : Fraction, rhs: Fraction) -> Bool {
+        return (lhs.numerator * rhs.denominator) >= (lhs.denominator * rhs.numerator)
+    }
+}
+
+//MARK: - Extenstion to add the mathmatical operators to the function class -
+
+/*
+ * extensions for all the math operators for the Fraction Class. Always returns a Reduced Fraction
+ */
+extension Fraction {
+    
+    //Function to make use of the prefix operator "-". i.e. Fraction 2/3 would be
+    //changed by using - as -Fraction and would then become -2/3.
+    static prefix func - (rhs : Fraction) -> Fraction{
+        return Fraction(numerator: -rhs.numerator, denominator: rhs.denominator)
+    }
+    
+    //Function to add one fraction to another and return a fraction
+    //@return new reduced fraction consisting of sum of lhs and rhs
+    static func + (lhs : Fraction, rhs: Fraction) -> Fraction {
+        let a = lhs.numerator * rhs.denominator
+        let b = lhs.denominator * rhs.numerator
+        let den = lhs.denominator * rhs.denominator
+        
+        let numbers = Fraction.reduce(numerator: a+b, denominator: den)
+
+        return Fraction(numerator: numbers.numerator, denominator: numbers.denominator)
+    }
+
+    //function to subtract one Fraction from another and return a Fraction
+    // @return lhs + -rhs since we already the addition we use that and just add by a negitive
+    // rhs fraction
+    static func - (lhs : Fraction, rhs : Fraction) -> Fraction {
+        return lhs + -rhs
+
+    }
+
+    //function to multiply two Fractions together and return a Fraction
+    static func * (lhs: Fraction, rhs : Fraction) -> Fraction{
+        let numerator = lhs.numerator * rhs.numerator
+        let denominator = lhs.denominator * rhs.denominator
+        
+        let numbers = Fraction.reduce(numerator: numerator, denominator: denominator)
+        
+        return Fraction(numerator: numbers.numerator, denominator: numbers.denominator)
+    }
+
+    //function to multiply two Fractions together and return a Fraction
+    //@return lhs * the reciprocalof : rhs. Since the multiply func can do the work we let it.
+    static func / (lhs : Fraction, rhs: Fraction) -> Fraction {
+        return  lhs * Fraction(reciprocalOf: rhs)
+    }
+
+    //function for a +=. left is decleared inout as that's what's changed
+    static func +=  (lhs: inout Fraction, rhs: Fraction) {
+        lhs = lhs + rhs
+    }
+
+    //function for a -=. left is decleared inout as that's what's changed
+    static func -= (lhs: inout Fraction, rhs: Fraction) {
+        lhs = lhs - rhs
+    }
+
+    //function for a *=. left is decleared inout as that's what's changed
+    static func *= (lhs: inout Fraction, rhs: Fraction) {
+        lhs = lhs * rhs
+    }
+
+    //function for a /=. left is decleared inout as that's what's changed
+    static func /= (lhs: inout Fraction, rhs: Fraction) {
+        lhs = lhs / rhs
+    }
+
+    //function to get the GCD of two numbers, decleared fileprivate so the it can be called anywhere in the current file
+    //used to get a divisor between a numerator and a denominator also
+    fileprivate static func gcd( lhs: Int, rhs: Int) -> Int {
+        return rhs == 0 ? lhs : gcd(lhs: rhs, rhs: lhs % rhs)
+    }
+
+    //Function to reduce a Fraction to the lowest possible Fraction
+    static func reduce(numerator : Int, denominator : Int) -> (numerator : Int, denominator: Int) {
+        var divisor = Fraction.gcd(lhs: numerator, rhs: denominator)
+        if divisor < 0 {divisor *= -1}
+
+        let num = numerator / divisor
+        let den = denominator / divisor
+
+        return (num, den)
+    }
+}
+
+//MARK: - Extension to make Fraction comform to CustomStringConvertible -
 
 extension Fraction: CustomStringConvertible{
-
-    ///Calculated Variable to get the description of the the fraction
-    ///
-    /// -Returns: a String representation of the Fraction
     var description: String {
-        get {
-            if(denominator == 0){
-                return "Invalid fraction"
-            }
-            else if(numerator == 0){
-                return "0"
-            }
-            else if(numerator == self.denominator){
-                return "1"
-            }
-            else{
-                return "\(self.numerator)/\(self.denominator)"
-            }
+        return self.formatted
+    }
+}
+
+//MARK: - Extensions to make Int work with the Fraction class -
+
+extension Int{
+    var superScript: String{
+        var superScript = ""
+        let translationTable: [String: String] = [
+                    "0": "\u{2070}",
+                    "1": "\u{00B9}",
+                    "2": "\u{00B2}",
+                    "3": "\u{00B3}",
+                    "4": "\u{2074}",
+                    "5": "\u{2075}",
+                    "6": "\u{2076}",
+                    "7": "\u{2077}",
+                    "8": "\u{2078}",
+                    "9": "\u{2079}"
+        ]
+        
+        for n in String(self){
+            let m = String(n)
+            superScript += translationTable[m] ?? ""
         }
+        
+        return superScript
+    }
+    
+    var subScript: String{
+        var subScript = ""
+        let translationTable: [String: String] = [
+            "0": "\u{2080}",
+            "1": "\u{2081}",
+            "2": "\u{2082}",
+            "3": "\u{2083}",
+            "4": "\u{2084}",
+            "5": "\u{2085}",
+            "6": "\u{2086}",
+            "7": "\u{2087}",
+            "8": "\u{2088}",
+            "9": "\u{2089}"
+        ]
+        
+        for n in String(self){
+            let m = String(n)
+            subScript += translationTable[m] ?? ""
+        }
+        
+        return subScript
     }
 }
 
-//MARK: - Extension to make Fraction conform to Hashable -
-extension Fraction: Hashable{
+/*
+ * Extension on Int that makes an Int a Fraction.
+ */
+extension Int  {
 
-    ///Calculated Variable to get the HashValue of the fraction
-    ///
-    /// -Returns: An Int representation of the Fraction
-    var hashValue: Int {
-        var hash = 31
-
-        hash = hash ^ self.numerator
-        hash = hash ^ self.denominator
-        return hash
-    }
-}
-
-//MARK: - Extension for Int to turn it into a fraction -
-
-extension Int {
-
-    ///Calculated Variable to make an Int a Fraction
-    ///
-    /// -Returns: A fraction of the wholeNumber
-    var fraction: Fraction {
-        return Fraction(wholeNumber: self)
+    var fraction : Fraction {
+        return Fraction(numerator: self, denominator: 1)
     }
 
-    ///Calculated Variable to get the reciprocal of a fraction
-    ///
-    /// -Returns: A fraction of the reciprocal of the whole number
-    var reciprocalOf: Fraction {
+    var reciprocalOf : Fraction {
         return Fraction(numerator: 1, denominator: self)
     }
 }
 
-//MARK: - Extension for math functions between Int and Fraction -
 
-extension Int {
+/*
+ *Extension on Fraction that allows you to use the math operands with a Fraction and and Int.
+ */
+extension Fraction {
 
-    ///Static function to add a Fraction and an Int
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the plus sign
-    ///         - rhs: A Int on the right side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the fraction and Int
-    static func + (lhs: Fraction, rhs: Int) -> Fraction {
+    static func + (lhs : Fraction, rhs : Int) -> Fraction {
         return lhs + rhs.fraction
     }
 
-    ///Static function to add a Fraction and an Int
-    ///
-    /// -Parameters:
-    ///         - lhs: A Int on the right side of the plus sign
-    ///         - rhs: A fraction on the left side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the fraction and Int
-    static func + (lhs: Int, rhs: Fraction) -> Fraction {
+    static func + (lhs : Int, rhs : Fraction) -> Fraction {
         return lhs.fraction + rhs
     }
 
-    ///Static function to Subtract an Int from a fraction
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the plus sign
-    ///         - rhs: A Int on the right side of the plus sign
-    ///
-    /// - Returns: A new fraction of the Subtraction of the fraction and Int
     static func - (lhs: Fraction, rhs: Int) -> Fraction {
         return lhs - rhs.fraction
     }
 
-    ///Static function to Subtract two a Fraction from and Int
-    ///
-    /// -Parameters:
-    ///         - lhs: A Int on the right side of the plus sign
-    ///         - rhs: A fraction on the left side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the fraction and Int
     static func - (lhs: Int, rhs: Fraction) -> Fraction {
         return lhs.fraction - rhs
     }
 
-    ///Static function to multiply a Fraction and an Int
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the plus sign
-    ///         - rhs: A Int on the right side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the fraction and Int
-    static func * (lhs: Fraction, rhs: Int) -> Fraction {
+    static func * (lhs : Fraction, rhs: Int) -> Fraction {
         return lhs * rhs.fraction
     }
 
-    ///Static function to multiply a Fraction and an Int
-    ///
-    /// -Parameters:
-    ///         - lhs: A Int on the right side of the plus sign
-    ///         - rhs: A fraction on the left side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the fraction and Int
-    static func * (lhs: Int, rhs: Fraction) -> Fraction {
+    static func * (lhs : Int, rhs : Fraction) -> Fraction {
         return lhs.fraction * rhs
     }
 
-    ///Static function to Divide an Int from a fraction
-    ///
-    /// -Parameters:
-    ///         - lhs: A fraction on the left side of the plus sign
-    ///         - rhs: A Int on the right side of the plus sign
-    ///
-    /// - Returns: A new fraction of the Division of the fraction and Int
-    static func / (lhs: Fraction, rhs: Int) -> Fraction {
+    static func / (lhs : Fraction, rhs : Int) -> Fraction {
         return lhs / rhs.fraction
     }
 
-    ///Static function to Subtract two a Fraction from and Int
-    ///
-    /// -Parameters:
-    ///         - lhs: A Int on the right side of the plus sign
-    ///         - rhs: A fraction on the left side of the plus sign
-    ///
-    /// - Returns: A new fraction of the addition of the fraction and Int
-    static func / (lhs: Int, rhs: Fraction) -> Fraction {
+    static func / (lhs : Int, rhs : Fraction) -> Fraction {
         return lhs.fraction / rhs
     }
+
+    static func += (lhs : inout Fraction, rhs : Int) {
+        lhs = lhs + rhs.fraction
+    }
+
+    static func -= (lhs : inout Fraction, rhs : Int) {
+        lhs = lhs - rhs.fraction
+    }
+
+    static func *= (lhs : inout Fraction, rhs : Int) {
+        lhs = lhs * rhs.fraction
+    }
+
+    static func /= (lhs: inout Fraction, rhs : Int){
+        lhs = lhs / rhs.fraction
+    }
+
+
 }
-
-
-
-
