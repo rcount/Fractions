@@ -7,13 +7,6 @@
 
 import Foundation
 
-//
-// Created by Stephen Vickers on 10/13/16.
-// Copyright (c) 2016 ___FULLUSERNAME___. All rights reserved.
-//
-
-import Foundation
-
 struct Fraction {
 
     //MARK: - Public functions for the Fraction class -
